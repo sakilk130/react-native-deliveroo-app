@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, Text, TextInput, View } from "react-native";
 import SafeViewAndroid from "../../utils/SafeViewAndroid";
 
 import Header from "../../components/header";
+import { AdjustmentsIcon, SearchIcon } from "react-native-heroicons/outline";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -17,6 +18,17 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
       <Header />
+      <View className="flex-row pl-3 pr-3 items-center">
+        <View className="flex-1 flex-row items-center bg-gray-300 p-2">
+          <SearchIcon color="gray" size={20} />
+          <TextInput
+            placeholder="Restaurants and Cuisines"
+            keyboardType="default"
+            className="flex-1 ml-2 text-sm"
+          />
+        </View>
+        <AdjustmentsIcon color="#00CCBB" />
+      </View>
     </SafeAreaView>
   );
 }

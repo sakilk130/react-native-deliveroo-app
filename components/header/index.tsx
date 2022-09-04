@@ -10,7 +10,7 @@ export default function Header() {
         className="h-7 w-7 bg-gray-300 rounded-full"
       />
       <View className="flex-1">
-        <Text className="font-bold text-gray-400 text-xs">Deliver Now</Text>
+        <Text className="font-bold text-gray-400 text-xs">Deliver Now!</Text>
         <Text className="font-bold text-xl">
           Current Location
           <ChevronDownIcon size={20} color="#00CCBB" />
