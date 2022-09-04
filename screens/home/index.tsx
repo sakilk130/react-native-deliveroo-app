@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
-import { SafeAreaView, Text, TextInput, View } from "react-native";
-import SafeViewAndroid from "../../utils/SafeViewAndroid";
-
-import Header from "../../components/header";
+import { SafeAreaView, ScrollView, TextInput, View } from "react-native";
 import { AdjustmentsIcon, SearchIcon } from "react-native-heroicons/outline";
+import Categories from "../../components/categories";
+import Header from "../../components/header";
+import SafeViewAndroid from "../../utils/SafeViewAndroid";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -29,6 +29,10 @@ export default function HomeScreen() {
         </View>
         <AdjustmentsIcon color="#00CCBB" />
       </View>
+
+      <ScrollView>
+        <Categories />
+      </ScrollView>
     </SafeAreaView>
   );
 }
