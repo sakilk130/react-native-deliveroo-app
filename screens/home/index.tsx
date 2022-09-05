@@ -41,7 +41,7 @@ export default function HomeScreen() {
           <FeaturedRow
             key={index}
             description="Testing 2"
-            featuredCategory="Testing 3"
+            id={index}
             title="Testing 4"
           />
         ))}
