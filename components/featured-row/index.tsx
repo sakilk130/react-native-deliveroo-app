@@ -1,6 +1,7 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
+import { getRestaurantsById } from "../../lib/restaurant";
 import RestaurantCard from "../restaurant-card";
 
 interface IFeaturedRowProps {
@@ -14,6 +15,16 @@ export default function FeaturedRow({
   title,
   description,
 }: IFeaturedRowProps) {
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    const fetchRestaurants = async () => {
+      const data = await getRestaurantsById(id);
+      setRestaurants(data);
+    };
+    fetchRestaurants();
+  }, [id]);
+
   return (
     <View className="p-3">
       <View className="flex-row justify-between pb-3">
@@ -24,30 +35,21 @@ export default function FeaturedRow({
         <ArrowRightIcon color="#00CCBB" />
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <RestaurantCard
-          address="Testing 1"
-          dishes={["Testing 2"]}
-          genre="Testing 3"
-          id={id}
-          imgUrl="https://images.unsplash.com/photo-1615361200141-f45040f367be?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"
-          lat="Testing 5"
-          long="Testing 6"
-          rating={5}
-          short_description="Testing 7"
-          title="Testing 8"
-        />
-        <RestaurantCard
-          address="Testing 1"
-          dishes={["Testing 2"]}
-          genre="Testing 3"
-          id={id}
-          imgUrl="https://images.unsplash.com/photo-1615361200141-f45040f367be?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80"
-          lat="Testing 5"
-          long="Testing 6"
-          rating={5}
-          short_description="Testing 7"
-          title="Testing 8"
-        />
+        {restaurants?.map((restaurant: any) => (
+          <RestaurantCard
+            key={restaurant._id}
+            id={restaurant._id}
+            imgUrl={restaurant.image}
+            title={restaurant.name}
+            rating={restaurant.rating}
+            genre={restaurant.type?.name}
+            address={restaurant.address}
+            short_description={restaurant.short_description}
+            dishes={restaurant.dishes}
+            long={restaurant.long}
+            lat={restaurant.lat}
+          />
+        ))}
       </ScrollView>
     </View>
   );

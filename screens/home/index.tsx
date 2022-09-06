@@ -1,19 +1,31 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { SafeAreaView, ScrollView, TextInput, View } from "react-native";
 import { AdjustmentsIcon, SearchIcon } from "react-native-heroicons/outline";
 import Categories from "../../components/categories";
 import FeaturedRow from "../../components/featured-row";
 import Header from "../../components/header";
+import { IFeaturedCategory } from "../../interfaces";
+import { getFeaturedCategories } from "../../lib/featuredCategory";
 import SafeViewAndroid from "../../utils/SafeViewAndroid";
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
+  const [featuredCategories, setFeaturedCategories] = useState([]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
+  }, []);
+
+  useEffect(() => {
+    const fetchFeaturedCategories = async () => {
+      const data = await getFeaturedCategories();
+      setFeaturedCategories(data);
+    };
+    fetchFeaturedCategories();
   }, []);
 
   return (
@@ -37,14 +49,15 @@ export default function HomeScreen() {
         className="bg-gray-100"
       >
         <Categories />
-        {Array.from({ length: 5 }).map((_, index) => (
-          <FeaturedRow
-            key={index}
-            description="Testing 2"
-            id={index}
-            title="Testing 4"
-          />
-        ))}
+        {featuredCategories?.length > 0 &&
+          featuredCategories?.map((category: IFeaturedCategory) => (
+            <FeaturedRow
+              key={category._id}
+              description={category.short_description}
+              id={category._id}
+              title={category.name}
+            />
+          ))}
       </ScrollView>
     </SafeAreaView>
   );
