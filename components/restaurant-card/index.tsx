@@ -1,9 +1,10 @@
-import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { LocationMarkerIcon, StarIcon } from "react-native-heroicons/outline";
-import { urlFor } from "../../sanity.config";
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { LocationMarkerIcon, StarIcon } from 'react-native-heroicons/outline';
+import { urlFor } from '../../sanity.config';
 
-interface IRestaurantCardProps {
+export interface IRestaurantCardProps {
   id: any;
   imgUrl: any;
   title: string;
@@ -17,8 +18,16 @@ interface IRestaurantCardProps {
 }
 
 export default function RestaurantCard(props: IRestaurantCardProps) {
+  const navigation: any = useNavigation();
   return (
-    <TouchableOpacity className="bg-white mr-3 shadow">
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('Restaurant', {
+          ...props,
+        })
+      }
+      className="bg-white mr-3 shadow"
+    >
       <Image
         source={{ uri: urlFor(props.imgUrl).url() }}
         className="h-36 w-64 rounded-sm"
