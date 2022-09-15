@@ -9,6 +9,8 @@ import {
   QuestionMarkCircleIcon,
   StarIcon,
 } from 'react-native-heroicons/solid';
+import DishRow from '../../components/dish-row';
+import { IDish } from '../../interfaces';
 import { urlFor } from '../../sanity.config';
 
 const RestaurantScreen = () => {
@@ -65,6 +67,12 @@ const RestaurantScreen = () => {
         </Text>
         <ChevronRightIcon color="#00CCBB" />
       </TouchableOpacity>
+      <View className="p-4">
+        <Text className="text-lg font-bold">Menu</Text>
+      </View>
+      {dishes.map((dish: IDish) => (
+        <DishRow key={dish._id} dish={dish} />
+      ))}
     </ScrollView>
   );
 };
