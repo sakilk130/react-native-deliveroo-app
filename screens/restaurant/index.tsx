@@ -1,7 +1,6 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useLayoutEffect } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-
 import {
   ArrowLeftIcon,
   ChevronRightIcon,
@@ -43,11 +42,10 @@ const RestaurantScreen = () => {
           source={{ uri: urlFor(imgUrl).url() }}
           className="w-full h-56 bg-gray-300 p-4"
         />
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full"
-        >
-          <ArrowLeftIcon size={20} color="#00CCBB" />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <View className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
+            <ArrowLeftIcon size={20} color="#00CCBB" />
+          </View>
         </TouchableOpacity>
       </View>
       <View className="bg-white p-4">
@@ -60,12 +58,14 @@ const RestaurantScreen = () => {
         </View>
         <Text className="mt-2 mb-2">{short_description}</Text>
       </View>
-      <TouchableOpacity className="bg-white flex-row items-center space-x-2 p-4 border-y border-gray-300">
-        <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
-        <Text className="pl-2 flex-1 text-md font-bold">
-          Have a food allergy
-        </Text>
-        <ChevronRightIcon color="#00CCBB" />
+      <TouchableOpacity>
+        <View className="bg-white flex-row items-center space-x-2 p-4 border-y border-gray-300">
+          <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
+          <Text className="pl-2 flex-1 text-md font-bold">
+            Have a food allergy
+          </Text>
+          <ChevronRightIcon color="#00CCBB" />
+        </View>
       </TouchableOpacity>
       <View className="p-4">
         <Text className="text-lg font-bold">Menu</Text>
