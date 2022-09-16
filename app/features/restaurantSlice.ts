@@ -11,6 +11,8 @@ interface IRestaurantState {
     address: string;
     short_description: string;
     dishes: any;
+    lat: number;
+    long: number;
   };
 }
 
@@ -24,6 +26,8 @@ const initialState: IRestaurantState = {
     address: '',
     short_description: '',
     dishes: null,
+    lat: 0,
+    long: 0,
   },
 };
 

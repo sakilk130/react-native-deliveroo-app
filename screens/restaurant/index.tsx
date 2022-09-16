@@ -50,6 +50,8 @@ const RestaurantScreen = () => {
         address,
         short_description,
         dishes,
+        lat,
+        long,
       })
     );
   }, [dispatch]);
