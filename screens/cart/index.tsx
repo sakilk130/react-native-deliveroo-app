@@ -1,13 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { XCircleIcon } from 'react-native-heroicons/solid';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeFromCart, selectCartItems } from '../../app/features/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  removeFromCart,
+  selectCartItems,
+  selectCartTotal,
+} from '../../app/features/cartSlice';
 import { selectRestaurant } from '../../app/features/restaurantSlice';
 import { IRestaurant } from '../../interfaces';
 import { urlFor } from '../../sanity.config';
+import SafeViewAndroid from '../../utils/SafeViewAndroid';
 
 const CartScreen = () => {
   const navigation = useNavigation();
@@ -17,6 +22,8 @@ const CartScreen = () => {
 
   const restaurant = useSelector(selectRestaurant);
   const items = useSelector(selectCartItems);
+  const cartTotal = useSelector(selectCartTotal);
+  const deliveryFee = cartTotal > 500 ? 0 : 70;
 
   useEffect(() => {
     const groupedItems = items.reduce((results: any, item: IRestaurant) => {
@@ -28,12 +35,8 @@ const CartScreen = () => {
   }, [items.length]);
 
   return (
-    <SafeAreaView
-      style={{
-        backgroundColor: '#fff',
-      }}
-    >
-      <View className="pb-4 flex-row items-center shadow-md border-b-2 border-[#00CCBB]">
+    <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
+      <View className="p-4 flex-row items-center shadow-md border-b-2 border-[#00CCBB]">
         <View className="pl-4 flex-1">
           <Text className="text-center text-lg font-extrabold">Cart</Text>
           <Text className="text-center text-slate-400">
@@ -53,7 +56,7 @@ const CartScreen = () => {
           <View className="flex-row gap-3 items-center">
             <Image
               source={{
-                uri: 'https://images.unsplash.com/photo-1662368298353-9bbb868acdd0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1631&q=80',
+                uri: urlFor(restaurant.imgUrl).url(),
               }}
               className="h-7 w-7 rounded-full"
             />
@@ -61,30 +64,53 @@ const CartScreen = () => {
           </View>
           <Text className="text-[#00CCBB]">Change</Text>
         </View>
-        {Object.entries(groupedItems).map(([key, items]: any) => (
-          <View
-            key={key}
-            className="flex-row justify-between items-center bg-white p-4"
-          >
-            <View className="flex-row gap-3 items-center">
-              <Text>{items.length} x</Text>
-              <Image
-                source={{ uri: urlFor(items[0]?.image).url() }}
-                className="h-8 w-8 rounded-full"
-              />
-              <Text>{items[0]?.name}</Text>
+        <ScrollView className="divide-y divide-gray-200 mb-4">
+          {Object.entries(groupedItems).map(([key, items]: any) => (
+            <View
+              key={key}
+              className="flex-row justify-between items-center bg-white p-4"
+            >
+              <View className="flex-row gap-3 items-center">
+                <Text>{items.length} x</Text>
+                <Image
+                  source={{ uri: urlFor(items[0]?.image).url() }}
+                  className="h-8 w-8 rounded-full"
+                />
+                <Text>{items[0]?.name}</Text>
+              </View>
+              <View className="flex-row gap-3">
+                <Text className="text-slate-400">${items[0].price}</Text>
+                <Text
+                  className="text-[#00CCBB]"
+                  onPress={() => dispatch(removeFromCart({ _id: key }))}
+                >
+                  Remove
+                </Text>
+              </View>
             </View>
-            <View className="flex-row gap-3">
-              <Text className="text-slate-400">${items[0].price}</Text>
-              <Text
-                className="text-[#00CCBB]"
-                onPress={() => dispatch(removeFromCart({ _id: key }))}
-              >
-                Remove
+          ))}
+        </ScrollView>
+        <View className="p-4 mb-20 bg-white space-y-4">
+          <View className="flex-row justify-between">
+            <Text className="text-gray-400">Subtotal</Text>
+            <Text className="text-gray-400">${cartTotal}</Text>
+          </View>
+          <View className="flex-row justify-between">
+            <Text className="text-gray-400">Delivery Fee</Text>
+            <Text className="text-gray-400">${deliveryFee}</Text>
+          </View>
+          <View className="flex-row justify-between">
+            <Text className="">Order Total</Text>
+            <Text className="font-extrabold">${deliveryFee + cartTotal}</Text>
+          </View>
+          <TouchableOpacity>
+            <View className="bg-[#00CCBB] rounded-lg p-3">
+              <Text className="text-center text-white text-lg font-bold">
+                Place Order
               </Text>
             </View>
-          </View>
-        ))}
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
