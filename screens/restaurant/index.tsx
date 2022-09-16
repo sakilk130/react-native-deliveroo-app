@@ -8,6 +8,7 @@ import {
   QuestionMarkCircleIcon,
   StarIcon,
 } from 'react-native-heroicons/solid';
+import Cart from '../../components/cart';
 import DishRow from '../../components/dish-row';
 import { IDish } from '../../interfaces';
 import { urlFor } from '../../sanity.config';
@@ -36,49 +37,52 @@ const RestaurantScreen = () => {
   }, []);
 
   return (
-    <ScrollView>
-      <View className="relative">
-        <Image
-          source={{ uri: urlFor(imgUrl).url() }}
-          className="w-full h-56 bg-gray-300 p-4"
-        />
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: 'absolute',
-          }}
-        >
-          <View className=" top-14 left-5 p-2 bg-gray-100 rounded-full">
-            <ArrowLeftIcon size={20} color="#00CCBB" />
+    <>
+      <Cart />
+      <ScrollView>
+        <View className="relative">
+          <Image
+            source={{ uri: urlFor(imgUrl).url() }}
+            className="w-full h-56 bg-gray-300 p-4"
+          />
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{
+              position: 'absolute',
+            }}
+          >
+            <View className=" top-14 left-5 p-2 bg-gray-100 rounded-full">
+              <ArrowLeftIcon size={20} color="#00CCBB" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View className="bg-white p-4">
+          <Text className="font-bold text-2xl">{title}</Text>
+          <View className="flex-row gap-1 mt-1">
+            <StarIcon size={20} color="#00CCBB" />
+            <Text>{rating}</Text>
+            <LocationMarkerIcon size={20} color="#00CCBB" />
+            <Text>Nearby · {address}</Text>
+          </View>
+          <Text className="mt-2 mb-2">{short_description}</Text>
+        </View>
+        <TouchableOpacity>
+          <View className="bg-white flex-row items-center space-x-2 p-4 border-y border-gray-300">
+            <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
+            <Text className="pl-2 flex-1 text-md font-bold">
+              Have a food allergy
+            </Text>
+            <ChevronRightIcon color="#00CCBB" />
           </View>
         </TouchableOpacity>
-      </View>
-      <View className="bg-white p-4">
-        <Text className="font-bold text-2xl">{title}</Text>
-        <View className="flex-row gap-1 mt-1">
-          <StarIcon size={20} color="#00CCBB" />
-          <Text>{rating}</Text>
-          <LocationMarkerIcon size={20} color="#00CCBB" />
-          <Text>Nearby · {address}</Text>
+        <View className="pb-36">
+          <Text className="text-lg font-bold p-4">Menu</Text>
+          {dishes.map((dish: IDish) => (
+            <DishRow key={dish._id} dish={dish} />
+          ))}
         </View>
-        <Text className="mt-2 mb-2">{short_description}</Text>
-      </View>
-      <TouchableOpacity>
-        <View className="bg-white flex-row items-center space-x-2 p-4 border-y border-gray-300">
-          <QuestionMarkCircleIcon color="gray" opacity={0.6} size={20} />
-          <Text className="pl-2 flex-1 text-md font-bold">
-            Have a food allergy
-          </Text>
-          <ChevronRightIcon color="#00CCBB" />
-        </View>
-      </TouchableOpacity>
-      <View className="p-4">
-        <Text className="text-lg font-bold">Menu</Text>
-      </View>
-      {dishes.map((dish: IDish) => (
-        <DishRow key={dish._id} dish={dish} />
-      ))}
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 

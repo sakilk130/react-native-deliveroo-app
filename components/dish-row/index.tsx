@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addToCart,
   removeFromCart,
-  selectCartItems,
+  selectCartItemsWithId,
 } from '../../app/features/cartSlice';
+import { RootState } from '../../app/store';
 import { IDish } from '../../interfaces';
 import { urlFor } from '../../sanity.config';
 
@@ -18,12 +19,15 @@ export default function DishRow({ dish }: IDishRowProps) {
 
   const [isPressed, setIsPressed] = useState(false);
 
-  const items = useSelector(selectCartItems);
+  const items = useSelector((state: RootState) =>
+    selectCartItemsWithId(state, dish._id)
+  );
 
   const handleAddToCart = () => {
     dispatch(addToCart(dish));
   };
   const handleRemoveFromCart = () => {
+    if (items.length <= 0) return;
     dispatch(removeFromCart(dish));
   };
 
@@ -50,8 +54,14 @@ export default function DishRow({ dish }: IDishRowProps) {
       </TouchableOpacity>
       {isPressed && (
         <View className="flex-row items-center gap-2 bg-white px-4 py-2 ">
-          <TouchableOpacity onPress={handleRemoveFromCart}>
-            <MinusCircleIcon color="#00CCBB" size={40} />
+          <TouchableOpacity
+            disabled={items.length <= 0}
+            onPress={handleRemoveFromCart}
+          >
+            <MinusCircleIcon
+              color={items.length <= 0 ? 'gray' : '#00CCBB'}
+              size={40}
+            />
           </TouchableOpacity>
           <Text>{items.length}</Text>
           <TouchableOpacity onPress={handleAddToCart}>
