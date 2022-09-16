@@ -15,7 +15,7 @@ import { urlFor } from '../../sanity.config';
 import SafeViewAndroid from '../../utils/SafeViewAndroid';
 
 const CartScreen = () => {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const dispatch = useDispatch();
 
   const [groupedItems, setGroupedItems] = useState<any>([]);
@@ -103,7 +103,7 @@ const CartScreen = () => {
             <Text className="">Order Total</Text>
             <Text className="font-extrabold">${deliveryFee + cartTotal}</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('PrepareOrder')}>
             <View className="bg-[#00CCBB] rounded-lg p-3">
               <Text className="text-center text-white text-lg font-bold">
                 Place Order
