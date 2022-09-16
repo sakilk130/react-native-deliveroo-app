@@ -1,13 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { SafeAreaView, ScrollView, TextInput, View } from "react-native";
-import { AdjustmentsIcon, SearchIcon } from "react-native-heroicons/outline";
-import Categories from "../../components/categories";
-import FeaturedRow from "../../components/featured-row";
-import Header from "../../components/header";
-import { IFeaturedCategory } from "../../interfaces";
-import { getFeaturedCategories } from "../../lib/featuredCategory";
-import SafeViewAndroid from "../../utils/SafeViewAndroid";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, TextInput, View } from 'react-native';
+import { AdjustmentsIcon, SearchIcon } from 'react-native-heroicons/outline';
+import Categories from '../../components/categories';
+import FeaturedRow from '../../components/featured-row';
+import Header from '../../components/header';
+import { IFeaturedCategory } from '../../interfaces';
+import { getFeaturedCategories } from '../../lib/featuredCategory';
+import SafeViewAndroid from '../../utils/SafeViewAndroid';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -29,7 +29,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
+    <SafeAreaView style={SafeViewAndroid().AndroidSafeArea}>
       <Header />
       <View className="flex-row pl-3 pr-3 items-center mb-3">
         <View className="flex-1 flex-row items-center bg-gray-300 p-2">

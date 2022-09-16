@@ -35,7 +35,7 @@ const CartScreen = () => {
   }, [items.length]);
 
   return (
-    <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
+    <SafeAreaView style={SafeViewAndroid().AndroidSafeArea}>
       <View className="p-4 flex-row items-center shadow-md border-b-2 border-[#00CCBB]">
         <View className="pl-4 flex-1">
           <Text className="text-center text-lg font-extrabold">Cart</Text>

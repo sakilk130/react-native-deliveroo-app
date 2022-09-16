@@ -1,9 +1,12 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 
-export default StyleSheet.create({
-  AndroidSafeArea: {
-    flex: 1,
-    backgroundColor: "#fff",
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});
+const SafeViewAndroid = (bg = '#fff') =>
+  StyleSheet.create({
+    AndroidSafeArea: {
+      flex: 1,
+      backgroundColor: bg,
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    },
+  });
+
+export default SafeViewAndroid;
